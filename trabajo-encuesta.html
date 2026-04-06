@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Helados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link id="heading-font-link" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link id="body-font-link" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['var(--font-heading-name)', 'cursive'],
+                        body: ['var(--font-body-name)', 'sans-serif'],
+                    },
+                    spacing: {
+                        base: 'var(--space-base)',
+                    },
+                    borderRadius: {
+                        small: 'var(--radius-small)',
+                        large: 'var(--radius-large)',
+                    },
+                    boxShadow: {
+                        custom: 'var(--shadow-custom)',
+                        'custom-hover': 'var(--shadow-custom-hover)',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            /* Typography */
+            --font-heading-name: 'Caveat';
+            --font-body-name: 'Nunito';
+            --font-heading: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --letter-spacing-heading: 0.5px;
+            --letter-spacing-body: 0px;
+            
+            /* Spacing */
+            --space-base: 1rem;
+            
+            /* Borders */
+            --radius-small: 0.75rem;
+            --radius-large: 1.5rem;
+            --border-width: 2px;
+            
+            /* Shadows */
+            --shadow-color: 251 146 60; /* Orange-400 rgb */
+            --shadow-offset-x: 0px;
+            --shadow-offset-y: 8px;
+            --shadow-blur: 24px;
+            --shadow-spread: -4px;
+            --shadow-opacity: 0.15;
+            --shadow-custom: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(var(--shadow-color), var(--shadow-opacity));
+            --shadow-custom-hover: 0px 12px 32px -4px rgba(var(--shadow-color), 0.25);
+        }
+    </style>
+</head>
+<body class="font-body bg-orange-50 text-neutral-800 antialiased" style="height: auto; min-height: 100%;">
+    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        
+        <main class="w-full max-w-4xl flex flex-col gap-10">
+            
+            <!-- Header Section -->
+            <header class="text-center px-4 flex flex-col items-center">
+                <div class="mb-4 relative">
+                    <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=200&h=200&q=80" alt="Cono de helado delicioso" class="w-28 h-28 object-cover rounded-full shadow-custom border-4 border-white rotate-6 hover:rotate-12 transition-transform duration-300">
+                    <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=50&h=50&q=80" alt="Detalle de helado" class="w-8 h-8 object-cover rounded-full">
+                    </div>
+                </div>
+                <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl text-orange-600 font-bold tracking-wide drop-shadow-sm">
+                    Para ti, ¿qué sabor de helado es mejor?
+                </h1>
+            </header>
+
+            <!-- Survey Form -->
+            <form action="#" method="POST" class="w-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    
+                    <!-- Row 1 -->
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
+                        <label for="nombre" class="text-neutral-700 font-semibold text-lg">¿Cuál es tu nombre?</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
+                    </div>
+                    
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
+                        <label for="edad" class="text-neutral-700 font-semibold text-lg">¿Cuántos años tienes?</label>
+                        <input type="number" id="edad" name="edad" placeholder="Tu edad" min="1" max="120" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
+                        <label for="carrera" class="text-neutral-700 font-semibold text-lg">¿Qué carrera estudias?</label>
+                        <input type="text" id="carrera" name="carrera" placeholder="Ej. Ingeniería, Diseño..." class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
+                    </div>
+                    
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
+                        <div class="flex items-center gap-3 mb-1">
+                            <img src="https://es.vecteezy.com/fotos-gratis/varias-bolas-de-helados" alt="Bolas de helado" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
+                            <label for="sabor" class="text-neutral-700 font-semibold text-lg leading-tight">Selecciona a continuación qué sabor de helado prefieres</label>
+                        </div>
+                        <div class="relative mt-auto">
+                            <select id="sabor" name="sabor" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
+                                <option value="" disabled selected>Elige un sabor...</option>
+                                <option value="vainilla">Vainilla</option>
+                                <option value="vainilla_chips">Vainilla chips</option>
+                                <option value="chocolate">Chocolate</option>
+                                <option value="fresa">Fresa</option>
+                                <option value="brownie">Brownie</option>
+                                <option value="arequipe">Arequipe</option>
+                                <option value="mora">Mora</option>
+                                <option value="ron_pasas">Ron con pasas</option>
+                                <option value="frutos_rojos">Frutos rojos</option>
+                                <option value="macadamia">Macadamia</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover h-full">
+                        <label for="razon" class="text-neutral-700 font-semibold text-lg">Describe brevemente por qué es tu sabor de helado preferido:</label>
+                        <textarea id="razon" name="razon" rows="3" placeholder="Me encanta porque..." class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400 resize-none flex-grow" required></textarea>
+                    </div>
+                    
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover h-full">
+                        <div class="flex items-center gap-3 mb-1">
+                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=100&h=100&q=80" alt="Toppings de helado" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
+                            <label for="acompanamiento" class="text-neutral-700 font-semibold text-lg leading-tight">Con qué te gusta acompañar el helado:</label>
+                        </div>
+                        <div class="relative mt-auto">
+                            <select id="acompanamiento" name="acompanamiento" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
+                                <option value="" disabled selected>Elige un acompañamiento...</option>
+                                <option value="queso">Queso</option>
+                                <option value="salsa_mora">Salsa de mora</option>
+                                <option value="arequipe">Arequipe</option>
+                                <option value="leche_condensada">Leche condensada</option>
+                                <option value="chantilly">Chantilly</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4 -->
+                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
+                        <div class="flex items-center gap-3 mb-1">
+                            <img src="https://images.unsplash.com/photo-1559703248-dcaaec9fab78?auto=format&fit=crop&w=100&h=100&q=80" alt="Cono de galleta" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
+                            <label for="recipiente" class="text-neutral-700 font-semibold text-lg leading-tight">Selecciona en qué te gusta comer tu helado:</label>
+                        </div>
+                        <div class="relative mt-auto">
+                            <select id="recipiente" name="recipiente" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
+                                <option value="" disabled selected>Elige una opción...</option>
+                                <option value="cono">Cono</option>
+                                <option value="vaso">Vaso</option>
+                                <option value="canastilla">Canastillas de Galleta</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-stretch">
+                        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xl py-6 px-8 rounded-large shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-hover focus:outline-none focus:ring-4 focus:ring-orange-300 flex items-center justify-center gap-3 group">
+                            <span>Enviar Encuesta</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <!-- Footer -->
+            <footer class="mt-8 pb-8 text-center">
+                <p class="text-sm text-orange-800/60 font-medium px-4">
+                    Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Keiner Jair Moguea Moguea
+                </p>
+            </footer>
+
+        </main>
+    </div>
+</body>
+</html>
