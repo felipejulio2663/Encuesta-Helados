@@ -186,7 +186,35 @@
                 </div>
             </form>
 
-            <!-- Footer -->
+<!-- Sección de Resultados -->
+<div class="mt-10 p-6 bg-white rounded-xl shadow-lg w-full max-w-2xl">
+    <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">Resultados en Tiempo Real</h2>
+    
+    <!-- Contenedor del Gráfico -->
+    <div class="mb-8">
+        <canvas id="graficoHelados"></canvas>
+    </div>
+
+    <!-- Tabla de Resumen -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead class="bg-purple-100">
+                <tr>
+                    <th class="py-2 px-4 border-b text-left">Sabor</th>
+                    <th class="py-2 px-4 border-b text-center">Votos</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body">
+                <!-- Los datos se insertarán aquí automáticamente -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Cargar librería de Gráficos -->
+<script src="https://jsdelivr.net"></script>
+
+            
             <footer class="mt-8 pb-8 text-center">
                 <p class="text-sm text-orange-800/60 font-medium px-4">
                     Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Keiner Jair Moguea Moguea
@@ -195,5 +223,84 @@
 
         </main>
     </div>
+
+<script type="module">
+  <script type="module">
+  import { initializeApp } from "https://gstatic.com";
+  import { getFirestore, collection, addDoc, onSnapshot } from "https://gstatic.com";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0vSa0pVzOvLfXayK_xi-EjYFNepn1jEg",
+    authDomain: "encuesta-helados.firebaseapp.com",
+    projectId: "encuesta-helados",
+    storageBucket: "encuesta-helados.firebasestorage.app",
+    messagingSenderId: "781087540945",
+    appId: "1:781087540945:web:5da994caa7e6288d3867f0",
+    measurementId: "G-LCEG1JZBEK"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // --- 1. Lógica para ENVIAR votos ---
+  const form = document.getElementById('encuesta-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = form.querySelector('input').value;
+    const sabor = form.querySelector('input[name="flavor"]:checked')?.value;
+
+    if(!sabor) return alert("Por favor elige un sabor");
+
+    try {
+      await addDoc(collection(db, "respuestas_encuesta"), {
+        usuario: nombre,
+        sabor_preferido: sabor,
+        fecha: new Date()
+      });
+      form.reset();
+    } catch (e) { alert("Error al votar"); }
+  });
+
+  // --- 2. Lógica para el GRÁFICO ---
+  const ctx = document.getElementById('graficoHelados').getContext('2d');
+  let miGrafico = new Chart(ctx, {
+    type: 'bar', // Puedes cambiarlo a 'pie' para un gráfico de pastel
+    data: {
+      labels: ['Vainilla', 'Chocolate', 'Fresa', 'Menta'],
+      datasets: [{
+        label: 'Número de Votos',
+        data: [0, 0, 0, 0],
+        backgroundColor: ['#F3E5AB', '#7B3F00', '#FFB7C5', '#98FF98']
+      }]
+    }
+  });
+
+  // --- 3. ESCUCHAR a Firebase en TIEMPO REAL ---
+  onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => {
+    const conteo = { 'Vainilla': 0, 'Chocolate': 0, 'Fresa': 0, 'Menta': 0 };
+    
+    snapshot.docs.forEach(doc => {
+      const data = doc.data();
+      if(conteo[data.sabor_preferido] !== undefined) {
+        conteo[data.sabor_preferido]++;
+      }
+    });
+
+    // Actualizar Gráfico
+    miGrafico.data.datasets[0].data = Object.values(conteo);
+    miGrafico.update();
+
+    // Actualizar Tabla
+    const tablaHTML = Object.entries(conteo).map(([sabor, votos]) => `
+      <tr>
+        <td class="py-2 px-4 border-b">${sabor}</td>
+        <td class="py-2 px-4 border-b text-center font-bold">${votos}</td>
+      </tr>
+    `).join('');
+    document.getElementById('tabla-body').innerHTML = tablaHTML;
+  });
+</script>
+
+
 </body>
 </html>
