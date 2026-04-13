@@ -4,303 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuesta de Helados</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="heading-font-link" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link id="body-font-link" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        heading: ['var(--font-heading-name)', 'cursive'],
-                        body: ['var(--font-body-name)', 'sans-serif'],
-                    },
-                    spacing: {
-                        base: 'var(--space-base)',
-                    },
-                    borderRadius: {
-                        small: 'var(--radius-small)',
-                        large: 'var(--radius-large)',
-                    },
-                    boxShadow: {
-                        custom: 'var(--shadow-custom)',
-                        'custom-hover': 'var(--shadow-custom-hover)',
-                    },
-                }
-            }
-        }
-    </script>
-    
+    <script src="https://tailwindcss.com"></script>
+    <script src="https://jsdelivr.net"></script>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
-            /* Typography */
-            --font-heading-name: 'Caveat';
-            --font-body-name: 'Nunito';
             --font-heading: 'Caveat', cursive;
             --font-body: 'Nunito', sans-serif;
-            --letter-spacing-heading: 0.5px;
-            --letter-spacing-body: 0px;
-            
-            /* Spacing */
-            --space-base: 1rem;
-            
-            /* Borders */
-            --radius-small: 0.75rem;
-            --radius-large: 1.5rem;
-            --border-width: 2px;
-            
-            /* Shadows */
-            --shadow-color: 251 146 60; /* Orange-400 rgb */
-            --shadow-offset-x: 0px;
-            --shadow-offset-y: 8px;
-            --shadow-blur: 24px;
-            --shadow-spread: -4px;
-            --shadow-opacity: 0.15;
-            --shadow-custom: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(var(--shadow-color), var(--shadow-opacity));
-            --shadow-custom-hover: 0px 12px 32px -4px rgba(var(--shadow-color), 0.25);
+            --shadow-custom: 0px 8px 24px -4px rgba(251, 146, 60, 0.15);
+            --shadow-custom-hover: 0px 12px 32px -4px rgba(251, 146, 60, 0.25);
         }
+        .font-heading { font-family: var(--font-heading); }
+        .font-body { font-family: var(--font-body); }
+        .shadow-custom { box-shadow: var(--shadow-custom); }
+        .hover-shadow-custom:hover { box-shadow: var(--shadow-custom-hover); }
     </style>
 </head>
-<body class="font-body bg-orange-50 text-neutral-800 antialiased" style="height: auto; min-height: 100%;">
-    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        
+<body class="font-body bg-orange-50 text-neutral-800 antialiased">
+    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4">
         <main class="w-full max-w-4xl flex flex-col gap-10">
-            
-            <!-- Header Section -->
             <header class="text-center px-4 flex flex-col items-center">
-                <div class="mb-4 relative">
-                    <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=200&h=200&q=80" alt="Cono de helado delicioso" class="w-28 h-28 object-cover rounded-full shadow-custom border-4 border-white rotate-6 hover:rotate-12 transition-transform duration-300">
-                    <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=50&h=50&q=80" alt="Detalle de helado" class="w-8 h-8 object-cover rounded-full">
-                    </div>
-                </div>
-                <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl text-orange-600 font-bold tracking-wide drop-shadow-sm">
+                <h1 class="font-heading text-5xl md:text-7xl text-orange-600 font-bold tracking-wide">
                     Para ti, ¿qué sabor de helado es mejor?
                 </h1>
             </header>
 
-            <!-- Survey Form -->
-            <form id="encuesta-form" class="w-full">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                    
-                    <!-- Row 1 -->
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
-                        <label for="nombre" class="text-neutral-700 font-semibold text-lg">¿Cuál es tu nombre?</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
-                    </div>
-                    
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
-                        <label for="edad" class="text-neutral-700 font-semibold text-lg">¿Cuántos años tienes?</label>
-                        <input type="number" id="edad" name="edad" placeholder="Tu edad" min="1" max="120" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
-                    </div>
+            <form id="encuesta-form" class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-custom flex flex-col gap-3">
+                    <label for="nombre" class="font-semibold">¿Cuál es tu nombre?</label>
+                    <input type="text" id="nombre" name="nombre" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-lg" required>
+                </div>
 
-                    <!-- Row 2 -->
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
-                        <label for="carrera" class="text-neutral-700 font-semibold text-lg">¿Qué carrera estudias?</label>
-                        <input type="text" id="carrera" name="carrera" placeholder="Ej. Ingeniería, Diseño..." class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400" required>
-                    </div>
-                    
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
-                        <div class="flex items-center gap-3 mb-1">
-                            <img src="https://es.pngtree.com/freepng/scoops-of-chocolate-vanilla-and-strawberry-ice-cream-with-sprinkles-sauce_20109211.html" alt="Bolas de helado" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
-                            <label for="sabor" class="text-neutral-700 font-semibold text-lg leading-tight">Selecciona a continuación qué sabor de helado prefieres</label>
-                        </div>
-                        <div class="relative mt-auto">
-                            <select id="sabor" name="sabor" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
-                                <option value="" disabled selected>Elige un sabor...</option>
-                                <option value="vainilla">Vainilla</option>
-                                <option value="vainilla_chips">Vainilla chips</option>
-                                <option value="chocolate">Chocolate</option>
-                                <option value="fresa">Fresa</option>
-                                <option value="brownie">Brownie</option>
-                                <option value="arequipe">Arequipe</option>
-                                <option value="mora">Mora</option>
-                                <option value="ron_pasas">Ron con pasas</option>
-                                <option value="frutos_rojos">Frutos rojos</option>
-                                <option value="macadamia">Macadamia</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-white p-6 rounded-2xl shadow-custom flex flex-col gap-3">
+                    <label for="sabor" class="font-semibold">Selecciona tu sabor preferido</label>
+                    <select id="sabor" name="sabor" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-lg cursor-pointer" required>
+                        <option value="" disabled selected>Elige un sabor...</option>
+                        <option value="Vainilla">Vainilla</option>
+                        <option value="Chocolate">Chocolate</option>
+                        <option value="Fresa">Fresa</option>
+                        <option value="Arequipe">Arequipe</option>
+                        <option value="Mora">Mora</option>
+                        <option value="Macadamia">Macadamia</option>
+                    </select>
+                </div>
 
-                    <!-- Row 3 -->
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover h-full">
-                        <label for="razon" class="text-neutral-700 font-semibold text-lg">Describe brevemente por qué es tu sabor de helado preferido:</label>
-                        <textarea id="razon" name="razon" rows="3" placeholder="Me encanta porque..." class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 placeholder-neutral-400 resize-none flex-grow" required></textarea>
-                    </div>
-                    
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover h-full">
-                        <div class="flex items-center gap-3 mb-1">
-                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=100&h=100&q=80" alt="Toppings de helado" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
-                            <label for="acompanamiento" class="text-neutral-700 font-semibold text-lg leading-tight">Con qué te gusta acompañar el helado:</label>
-                        </div>
-                        <div class="relative mt-auto">
-                            <select id="acompanamiento" name="acompanamiento" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
-                                <option value="" disabled selected>Elige un acompañamiento...</option>
-                                <option value="queso">Queso</option>
-                                <option value="salsa_mora">Salsa de mora</option>
-                                <option value="arequipe">Arequipe</option>
-                                <option value="leche_condensada">Leche condensada</option>
-                                <option value="chantilly">Chantilly</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Row 4 -->
-                    <div class="bg-white p-6 md:p-8 rounded-large shadow-custom flex flex-col gap-3 transition-shadow hover:shadow-custom-hover">
-                        <div class="flex items-center gap-3 mb-1">
-                            <img src="https://images.unsplash.com/photo-1559703248-dcaaec9fab78?auto=format&fit=crop&w=100&h=100&q=80" alt="Cono de galleta" class="w-10 h-10 rounded-full object-cover shadow-sm border-2 border-orange-100">
-                            <label for="recipiente" class="text-neutral-700 font-semibold text-lg leading-tight">Selecciona en qué te gusta comer tu helado:</label>
-                        </div>
-                        <div class="relative mt-auto">
-                            <select id="recipiente" name="recipiente" class="w-full px-4 py-3 bg-orange-50/50 border border-orange-100 rounded-small focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all text-neutral-700 appearance-none cursor-pointer" required>
-                                <option value="" disabled selected>Elige una opción...</option>
-                                <option value="cono">Cono</option>
-                                <option value="vaso">Vaso</option>
-                                <option value="canastilla">Canastillas de Galleta</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-orange-500">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-stretch">
-                        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xl py-6 px-8 rounded-large shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-hover focus:outline-none focus:ring-4 focus:ring-orange-300 flex items-center justify-center gap-3 group">
-                            <span>Enviar Encuesta</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
-                    </div>
-
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-2xl transition-all shadow-custom">
+                        Enviar Encuesta
+                    </button>
                 </div>
             </form>
 
-<!-- Sección de Resultados -->
-<div class="mt-10 p-6 bg-white rounded-xl shadow-lg w-full max-w-2xl">
-    <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">Resultados en Tiempo Real</h2>
-    
-    <!-- Contenedor del Gráfico -->
-    <div class="mb-8">
-        <canvas id="graficoHelados"></canvas>
-    </div>
-
-    <!-- Tabla de Resumen -->
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-200">
-            <thead class="bg-purple-100">
-                <tr>
-                    <th class="py-2 px-4 border-b text-left">Sabor</th>
-                    <th class="py-2 px-4 border-b text-center">Votos</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-body">
-                <!-- Los datos se insertarán aquí automáticamente -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Cargar librería de Gráficos -->
-<script src="https://jsdelivr.net"></script>
-
-            
-            <footer class="mt-8 pb-8 text-center">
-                <p class="text-sm text-orange-800/60 font-medium px-4">
-                    Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Keiner Jair Moguea Moguea
-                </p>
-            </footer>
-
+            <div class="mt-10 p-6 bg-white rounded-xl shadow-lg w-full">
+                <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">Resultados en Tiempo Real</h2>
+                <canvas id="graficoHelados"></canvas>
+                <div class="mt-6 overflow-x-auto">
+                    <table class="min-w-full border-collapse">
+                        <thead class="bg-purple-100">
+                            <tr>
+                                <th class="py-2 px-4 border-b text-left">Sabor</th>
+                                <th class="py-2 px-4 border-b text-center">Votos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </main>
     </div>
 
-<script type="module">
-  <script type="module">
-  import { initializeApp } from "https://gstatic.com";
-  import { getFirestore, collection, addDoc, onSnapshot } from "https://gstatic.com";
+    <script type="module">
+        import { initializeApp } from "https://gstatic.com";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://gstatic.com";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD0vSa0pVzOvLfXayK_xi-EjYFNepn1jEg",
-    authDomain: "encuesta-helados.firebaseapp.com",
-    projectId: "encuesta-helados",
-    storageBucket: "encuesta-helados.firebasestorage.app",
-    messagingSenderId: "781087540945",
-    appId: "1:781087540945:web:5da994caa7e6288d3867f0",
-    measurementId: "G-LCEG1JZBEK"
-  };
+        const firebaseConfig = {
+            apiKey: "AlzaSyD0vSa0pVzOvLfXayK_xi-EjYFNepn1jEg",
+            authDomain: "://firebaseapp.com",
+            projectId: "encuesta-helados",
+            storageBucket: "encuesta-helados.firebasestorage.app",
+            messagingSenderId: "781087540945",
+            appId: "1:781087540945:web:5da994caa7e6288d3867f0"
+        };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const form = document.getElementById('encuesta-form');
 
-  // --- 1. Lógica para ENVIAR votos ---
-  const form = document.getElementById('encuesta-form');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = form.querySelector('input').value;
-    const sabor = form.querySelector('input[name="flavor"]:checked')?.value;
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const sabor = document.getElementById('sabor').value;
 
-    if(!sabor) return alert("Por favor elige un sabor");
+            try {
+                await addDoc(collection(db, "respuestas_encuesta"), {
+                    usuario: nombre,
+                    sabor_preferido: sabor,
+                    fecha: new Date()
+                });
+                form.reset();
+            } catch (error) {
+                console.error(error);
+                alert("Error al registrar voto.");
+            }
+        });
 
-    try {
-      await addDoc(collection(db, "respuestas_encuesta"), {
-        usuario: nombre,
-        sabor_preferido: sabor,
-        fecha: new Date()
-      });
-      form.reset();
-    } catch (e) { alert("Error al votar"); }
-  });
+        const ctx = document.getElementById('graficoHelados').getContext('2d');
+        let miGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Vainilla', 'Chocolate', 'Fresa', 'Arequipe', 'Mora', 'Macadamia'],
+                datasets: [{
+                    label: 'Votos',
+                    data: [0, 0, 0, 0, 0, 0],
+                    backgroundColor: ['#F3E5AB', '#7B3F00', '#FFB7C5', '#F5DEB3', '#962343', '#EBD8B1']
+                }]
+            }
+        });
 
-  // --- 2. Lógica para el GRÁFICO ---
-  const ctx = document.getElementById('graficoHelados').getContext('2d');
-  let miGrafico = new Chart(ctx, {
-    type: 'bar', // Puedes cambiarlo a 'pie' para un gráfico de pastel
-    data: {
-      labels: ['Vainilla', 'Chocolate', 'Fresa', 'Menta'],
-      datasets: [{
-        label: 'Número de Votos',
-        data: [0, 0, 0, 0],
-        backgroundColor: ['#F3E5AB', '#7B3F00', '#FFB7C5', '#98FF98']
-      }]
-    }
-  });
+        onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => {
+            const conteo = { 'Vainilla': 0, 'Chocolate': 0, 'Fresa': 0, 'Arequipe': 0, 'Mora': 0, 'Macadamia': 0 };
+            
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                if (conteo[data.sabor_preferido] !== undefined) {
+                    conteo[data.sabor_preferido]++;
+                }
+            });
 
-  // --- 3. ESCUCHAR a Firebase en TIEMPO REAL ---
-  onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => {
-    const conteo = { 'Vainilla': 0, 'Chocolate': 0, 'Fresa': 0, 'Menta': 0 };
-    
-    snapshot.docs.forEach(doc => {
-      const data = doc.data();
-      if(conteo[data.sabor_preferido] !== undefined) {
-        conteo[data.sabor_preferido]++;
-      }
-    });
+            miGrafico.data.datasets[0].data = Object.values(conteo);
+            miGrafico.update();
 
-    // Actualizar Gráfico
-    miGrafico.data.datasets[0].data = Object.values(conteo);
-    miGrafico.update();
-
-    // Actualizar Tabla
-    const tablaHTML = Object.entries(conteo).map(([sabor, votos]) => `
-      <tr>
-        <td class="py-2 px-4 border-b">${sabor}</td>
-        <td class="py-2 px-4 border-b text-center font-bold">${votos}</td>
-      </tr>
-    `).join('');
-    document.getElementById('tabla-body').innerHTML = tablaHTML;
-  });
-</script>
-
-
+            document.getElementById('tabla-body').innerHTML = Object.entries(conteo)
+                .map(([sabor, votos]) => `
+                    <tr>
+                        <td class="py-2 px-4 border-b">${sabor}</td>
+                        <td class="py-2 px-4 border-b text-center font-bold">${votos}</td>
+                    </tr>
+                `).join('');
+        });
+    </script>
 </body>
 </html>
