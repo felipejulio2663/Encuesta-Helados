@@ -244,19 +244,13 @@ opción...</option>
 <!-- Cargar librería de Gráficos -->
 <script src="https://jsdelivr.net"></script>
 
-
-
-
 <footer class="mt-8 pb-8 text-center">
-<p class="text-sm text-orange-800/60 font-medium px-4">
-Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Keiner Jair Moguea Moguea
-</p>
+    <p class="text-sm text-orange-800/60 font-medium px-4">
+        Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Keiner Jair Moguea Moguea
+    </p>
 </footer>
-
-
 </main>
 </div>
-
 
 <script type="module">
 import { initializeApp } from "https://gstatic.com";
@@ -274,13 +268,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const form = document.getElementById('encuesta-form');
 
 // 1. Lógica para ENVIAR
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const nombre = document.getElementById('nombre').value;
+    const edad = document.getElementById('edad').value;
+    const carrera = document.getElementById('carrera').value;
     const sabor = document.getElementById('sabor').value;
 
     if(!sabor) return alert("Por favor elige un sabor");
@@ -288,13 +283,15 @@ form.addEventListener('submit', async (e) => {
     try {
         await addDoc(collection(db, "respuestas_encuesta"), {
             usuario: nombre,
+            edad: edad,
+            carrera: carrera,
             sabor_preferido: sabor,
             fecha: new Date()
         });
         form.reset();
     } catch (error) { 
-        console.error(error);
-        alert("Error al votar"); 
+        console.error("Error al enviar:", error);
+        alert("Error al votar. Verifique la consola."); 
     }
 });
 
@@ -305,12 +302,16 @@ const saboresDisponibles = ['vainilla', 'vainilla_chips', 'chocolate', 'fresa', 
 let miGrafico = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: saboresDisponibles,
+        labels: saboresDisponibles.map(s => s.replace('_', ' ')),
         datasets: [{
             label: 'Número de Votos',
             data: new Array(saboresDisponibles.length).fill(0),
             backgroundColor: '#f97316'
         }]
+    },
+    options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
     }
 });
 
@@ -338,9 +339,5 @@ onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => {
     document.getElementById('tabla-body').innerHTML = tablaHTML;
 });
 </script>
-
-
-
-
 </body>
 </html>
