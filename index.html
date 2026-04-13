@@ -259,71 +259,83 @@ Encuesta elaborada por: Juan Felipe Julio Villalobos, Felipe Palacios Yepes y Ke
 
 
 <script type="module">
-<script type="module">
 import { initializeApp } from "https://gstatic.com";
 import { getFirestore, collection, addDoc, onSnapshot } from "https://gstatic.com";
 
-
 const firebaseConfig = {
-apiKey: "AIzaSyD0vSa0pVzOvLfXayK_xi-EjYFNepn1jEg", authDomain: "encuesta-helados.firebaseapp.com", projectId: "encuesta-helados",
-storageBucket: "encuesta-helados.firebasestorage.app", messagingSenderId: "781087540945",
-appId: "1:781087540945:web:5da994caa7e6288d3867f0", measurementId: "G-LCEG1JZBEK"
- 
+    apiKey: "AlzaSyD0vSa0pVzOvLfXayK_xi-EjYFNepn1jEg",
+    authDomain: "://firebaseapp.com",
+    projectId: "encuesta-helados",
+    storageBucket: "encuesta-helados.firebasestorage.app",
+    messagingSenderId: "781087540945",
+    appId: "1:781087540945:web:5da994caa7e6288d3867f0",
+    measurementId: "G-LCEG1JZBEK"
 };
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+const form = document.getElementById('encuesta-form');
 
-// --- 1. Lógica para ENVIAR votos ---
-const form = document.getElementById('encuesta-form'); form.addEventListener('submit', async (e) => { e.preventDefault();
-const nombre = form.querySelector('input').value;
-const sabor = form.querySelector('input[name="flavor"]:checked')?.value;
+// 1. Lógica para ENVIAR
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const sabor = document.getElementById('sabor').value;
 
+    if(!sabor) return alert("Por favor elige un sabor");
 
-if(!sabor) return alert("Por favor elige un sabor");
-
-
-try {
-await addDoc(collection(db, "respuestas_encuesta"), { usuario: nombre,
-sabor_preferido: sabor, fecha: new Date()
-});
-form.reset();
-} catch (e) { alert("Error al votar"); }
-});
-
-
-// --- 2. Lógica para el GRÁFICO ---
-const ctx = document.getElementById('graficoHelados').getContext('2d'); let miGrafico = new Chart(ctx, {
- 
-type: 'bar', // Puedes cambiarlo a 'pie' para un gráfico de pastel data: {
-labels: ['Vainilla', 'Chocolate', 'Fresa', 'Menta'], datasets: [{
-label: 'Número de Votos', data: [0, 0, 0, 0],
-backgroundColor: ['#F3E5AB', '#7B3F00', '#FFB7C5', '#98FF98']
-}]
-}
+    try {
+        await addDoc(collection(db, "respuestas_encuesta"), {
+            usuario: nombre,
+            sabor_preferido: sabor,
+            fecha: new Date()
+        });
+        form.reset();
+    } catch (error) { 
+        console.error(error);
+        alert("Error al votar"); 
+    }
 });
 
+// 2. Lógica para el GRÁFICO
+const ctx = document.getElementById('graficoHelados').getContext('2d');
+const saboresDisponibles = ['vainilla', 'chocolate', 'fresa', 'brownie', 'arequipe', 'mora', 'ron_pasas', 'frutos_rojos', 'macadamia'];
 
-// --- 3. ESCUCHAR a Firebase en TIEMPO REAL --- onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => { const conteo = { 'Vainilla': 0, 'Chocolate': 0, 'Fresa': 0, 'Menta': 0 };
-
-snapshot.docs.forEach(doc => { const data = doc.data();
-if(conteo[data.sabor_preferido] !== undefined) { conteo[data.sabor_preferido]++;
-}
+let miGrafico = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: saboresDisponibles,
+        datasets: [{
+            label: 'Número de Votos',
+            data: new Array(saboresDisponibles.length).fill(0),
+            backgroundColor: '#f97316'
+        }]
+    }
 });
 
+// 3. Escucha en TIEMPO REAL
+onSnapshot(collection(db, "respuestas_encuesta"), (snapshot) => {
+    const conteo = {};
+    saboresDisponibles.forEach(s => conteo[s] = 0);
 
-// Actualizar Gráfico
-miGrafico.data.datasets[0].data = Object.values(conteo); miGrafico.update();
+    snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if(conteo[data.sabor_preferido] !== undefined) {
+            conteo[data.sabor_preferido]++;
+        }
+    });
 
-// Actualizar Tabla
- 
-const tablaHTML = Object.entries(conteo).map(([sabor, votos]) => `
-<tr>
-<td class="py-2 px-4 border-b">${sabor}</td>
-<td class="py-2 px-4 border-b text-center font-bold">${votos}</td>
-</tr>
-`).join('');
-document.getElementById('tabla-body').innerHTML = tablaHTML;
+    miGrafico.data.datasets[0].data = Object.values(conteo);
+    miGrafico.update();
+
+    const tablaHTML = Object.entries(conteo).map(([sabor, votos]) => `
+        <tr>
+            <td class="py-2 px-4 border-b capitalize">${sabor.replace('_', ' ')}</td>
+            <td class="py-2 px-4 border-b text-center font-bold">${votos}</td>
+        </tr>
+    `).join('');
+    document.getElementById('tabla-body').innerHTML = tablaHTML;
 });
 </script>
 
